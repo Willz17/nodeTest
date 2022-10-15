@@ -1,22 +1,27 @@
-const express = require("express")
-const path = require("path")
-const PORT = 3001
-const app = express()
+const express = require("express");
+const path = require("path");
+const PORT = process.env.PORT || 3001;
+const app = express();
 
-app.use(express.json())
+app.use(express.json());
 
+app.use(express.static("views"));
 
-app.use(express.static("local"))
+app.get("/home", (req, res, next) => {
+  res.json({ message: "hello world" });
+});
 
-app.use("/test", (req, res) => {
-  res.send("<h3>TEST</h3>")
-})
+app.get("/test", (req, res) => {
+  res.send("<h3>TEST</h3>");
+});
 
-app.use("/index", (req, res, next) => {
+app.get("/index", (req, res, next) => {
   console.log(__dirname);
-  res.sendFile(path.join(__dirname, 'local', "index.html"))
-})
+  res.sendFile(path.join(__dirname, "views", "index.html"));
+});
 
 app.listen(PORT, () => {
-  console.log(`Runnning at http://localhost:${PORT}`)
-})
+  console.log(`Runnning at http://localhost:${PORT}`);
+});
+
+console.log("testing stash");
